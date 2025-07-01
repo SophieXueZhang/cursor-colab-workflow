@@ -127,7 +127,7 @@ def main():
     # 绘制结果
     plot_results(losses)
     
-    print("✅ 训练完成！")
+    print("✅ 训练完成！！！")
     print("💡 提示: 修改代码后，在Cursor中推送到GitHub，然后在Colab中运行 !git pull 拉取最新代码")
 
 if __name__ == "__main__":
