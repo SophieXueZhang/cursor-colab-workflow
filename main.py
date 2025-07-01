@@ -103,6 +103,7 @@ def main():
     print("🎯 Cursor + Colab + GitHub 工作流示例")
     print("=" * 50)
     print(f"运行时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("🔥 这是一个测试更新 - 演示Cursor到Colab的工作流")
     
     # 检查GPU
     device = check_gpu()
