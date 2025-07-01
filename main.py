@@ -47,6 +47,10 @@ def train_model(device):
     """训练模型示例"""
     print("🚀 开始训练模型...")
     
+    # GPU内存监控
+    if torch.cuda.is_available():
+        print(f"💾 训练前GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
+    
     # 创建模拟数据
     batch_size = 64
     input_size = 784
@@ -57,6 +61,10 @@ def train_model(device):
     model = SimpleNN(input_size, 128, num_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
+    
+    # GPU内存监控
+    if torch.cuda.is_available():
+        print(f"💾 模型加载后GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
     
     # 模拟训练数据
     train_losses = []
@@ -84,6 +92,10 @@ def train_model(device):
         avg_loss = epoch_loss / num_batches
         train_losses.append(avg_loss)
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {avg_loss:.4f}")
+        
+        # 每个epoch后显示GPU内存使用
+        if torch.cuda.is_available():
+            print(f"  💾 GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
     
     return train_losses
 
