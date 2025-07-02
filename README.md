@@ -25,7 +25,7 @@ A streamlined workflow setup that lets you write code comfortably in Cursor whil
 
 2. **Set GPU runtime**: Runtime → Change runtime type → GPU
 
-3. **Run the setup cell** (in Colab):
+3. **Open the provided notebook** `colab_example.ipynb` or run the setup cell:
    ```python
    # 🔧 Setup - Run this first!
    REPO_URL = "https://github.com/SophieXueZhang/cursor-colab-workflow-en.git"
@@ -51,19 +51,17 @@ A streamlined workflow setup that lets you write code comfortably in Cursor whil
 ## 📁 Project Structure
 
 ```
-your-repo/
-├── main.py              # Simple PyTorch GPU training example
-├── colab_example.ipynb  # Ready-to-use Colab notebook
-├── colab_setup.py       # Python setup functions
-├── quick_push.sh        # One-line git push script
-├── requirements.txt     # Minimal dependencies: torch, matplotlib, numpy
-└── README.md           # Project documentation
+cursor-colab-workflow-en/
+├── README.md           # Project documentation
+├── main.py             # Simple PyTorch GPU training example  
+├── requirements.txt    # Minimal dependencies: torch, matplotlib, numpy
+└── colab_example.ipynb # Ready-to-use Colab notebook
 ```
 
 ## 🔧 Workflow
 
 1. **Write code in Cursor** → Enjoy intelligent code completion and debugging
-2. **Push to GitHub** → Version control and code synchronization
+2. **Push to GitHub** → Version control and code synchronization  
 3. **Pull and run in Colab** → Utilize free GPU resources
 
 ```bash
@@ -71,9 +69,6 @@ your-repo/
 git add .
 git commit -m "Update model"
 git push origin main
-
-# Or use the quick script
-./quick_push.sh "Update model"
 ```
 
 ```python
@@ -84,11 +79,13 @@ git push origin main
 
 ## 💡 Usage Tips
 
-### Quick Push Script
+### Git Commands in Cursor
 
-Use the simplified push script in Cursor:
+Use standard git commands for version control:
 ```bash
-./quick_push.sh "your message"
+git add .
+git commit -m "Your commit message"  
+git push origin main
 ```
 
 ### Colab Optimization Tips
@@ -101,11 +98,10 @@ Use the simplified push script in Cursor:
        print(f"Name: {torch.cuda.get_device_name(0)}")
    ```
 
-2. **Quick setup function**:
+2. **Quick commands**:
    ```python
-   from colab_setup import setup, update
-   setup()  # First time
-   update() # After changes
+   !git pull      # Update code
+   !python main.py # Run training
    ```
 
 ## 🛠️ Common Issues
@@ -122,7 +118,7 @@ A: Results are automatically plotted. For permanent storage, save to Google Driv
 ## 📊 Example Project
 
 The project includes a complete PyTorch example:
-- Simple neural network (52 lines vs 134 lines)
+- Simple neural network (66 lines total)
 - GPU-accelerated training
 - Training loss visualization
 - Automatic device detection
