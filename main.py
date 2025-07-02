@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-示例GPU加速的机器学习脚本
-在Google Colab中使用GPU运行
+Example GPU-accelerated machine learning script
+Run with GPU in Google Colab
 """
 
 import torch
@@ -12,18 +12,18 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 def check_gpu():
-    """检查GPU可用性"""
+    """Check GPU availability"""
     if torch.cuda.is_available():
         device = torch.device("cuda")
-        print(f"✅ GPU可用: {torch.cuda.get_device_name(0)}")
-        print(f"GPU内存: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f}GB")
+        print(f"✅ GPU available: {torch.cuda.get_device_name(0)}")
+        print(f"GPU memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f}GB")
     else:
         device = torch.device("cpu")
-        print("⚠️  GPU不可用，使用CPU")
+        print("⚠️  GPU not available, using CPU")
     return device
 
 class SimpleNN(nn.Module):
-    """简单的神经网络示例"""
+    """Simple neural network example"""
     def __init__(self, input_size=784, hidden_size=128, num_classes=10):
         super(SimpleNN, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
@@ -33,7 +33,7 @@ class SimpleNN(nn.Module):
         self.dropout = nn.Dropout(0.2)
         
     def forward(self, x):
-        x = x.view(-1, 784)  # 展平输入
+        x = x.view(-1, 784)  # Flatten input
         x = self.fc1(x)
         x = self.relu(x)
         x = self.dropout(x)
@@ -44,29 +44,29 @@ class SimpleNN(nn.Module):
         return x
 
 def train_model(device):
-    """训练模型示例"""
-    print("🚀 开始训练模型...")
+    """Train model example"""
+    print("🚀 Starting model training...")
     
-    # GPU内存监控
+    # GPU memory monitoring
     if torch.cuda.is_available():
-        print(f"💾 训练前GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
+        print(f"💾 GPU memory before training: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
     
-    # 创建模拟数据
+    # Create mock data
     batch_size = 64
     input_size = 784
     num_classes = 10
     num_epochs = 5
     
-    # 创建模型并移动到GPU
+    # Create model and move to GPU
     model = SimpleNN(input_size, 128, num_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     
-    # GPU内存监控
+    # GPU memory monitoring
     if torch.cuda.is_available():
-        print(f"💾 模型加载后GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
+        print(f"💾 GPU memory after model loading: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
     
-    # 模拟训练数据
+    # Mock training data
     train_losses = []
     
     for epoch in range(num_epochs):
@@ -74,15 +74,15 @@ def train_model(device):
         num_batches = 100
         
         for batch in range(num_batches):
-            # 生成随机数据
+            # Generate random data
             data = torch.randn(batch_size, input_size).to(device)
             targets = torch.randint(0, num_classes, (batch_size,)).to(device)
             
-            # 前向传播
+            # Forward pass
             outputs = model(data)
             loss = criterion(outputs, targets)
             
-            # 反向传播
+            # Backward pass
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -93,14 +93,14 @@ def train_model(device):
         train_losses.append(avg_loss)
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {avg_loss:.4f}")
         
-        # 每个epoch后显示GPU内存使用
+        # Show GPU memory usage after each epoch
         if torch.cuda.is_available():
-            print(f"  💾 GPU内存: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
+            print(f"  💾 GPU memory: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
     
     return train_losses
 
 def plot_results(losses):
-    """绘制训练结果"""
+    """Plot training results"""
     plt.figure(figsize=(10, 6))
     plt.plot(losses, 'b-', linewidth=2)
     plt.title('Training Loss Over Time', fontsize=16)
@@ -110,25 +110,25 @@ def plot_results(losses):
     plt.show()
 
 def main():
-    """主函数"""
+    """Main function"""
     print("=" * 50)
-    print("🎯 Cursor + Colab + GitHub 工作流示例")
+    print("🎯 Cursor + Colab + GitHub Workflow Example")
     print("=" * 50)
-    print(f"运行时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🔥 这是一个测试更新 - 演示Cursor到Colab的工作流")
-    print("✨ 用户测试修改 - 验证工作流正常运行")
+    print(f"Run time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("🔥 This is a test update - demonstrating Cursor to Colab workflow")
+    print("✨ User test modification - verifying workflow runs properly")
     
-    # 检查GPU
+    # Check GPU
     device = check_gpu()
     
-    # 训练模型
+    # Train model
     losses = train_model(device)
     
-    # 绘制结果
+    # Plot results
     plot_results(losses)
     
-    print("✅ 训练完成！！！")
-    print("💡 提示: 修改代码后，在Cursor中推送到GitHub，然后在Colab中运行 !git pull 拉取最新代码")
+    print("✅ Training completed!!!")
+    print("💡 Tip: After modifying code, push to GitHub in Cursor, then run !git pull in Colab to get latest code")
 
 if __name__ == "__main__":
     main() 
