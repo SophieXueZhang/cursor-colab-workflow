@@ -1,74 +1,77 @@
 """
-Google Colab environment setup script
-Copy and run this code in Colab to set up the environment
+Simple Colab setup for cursor-colab-workflow-en
 """
 
-def setup_colab_environment(github_repo_url, repo_name):
-    """
-    Set up Colab environment
+def setup():
+    """Quick setup"""
+    import os, shutil
+    repo_url = "https://github.com/SophieXueZhang/cursor-colab-workflow-en.git"
+    repo_name = repo_url.split("/")[-1].replace(".git", "")
     
-    Args:
-        github_repo_url (str): GitHub repository URL, e.g.: "https://github.com/username/repo.git"
-        repo_name (str): Repository name, e.g.: "repo"
-    """
+    print(f"📂 Repository: {repo_name}")
+    print(f"🔗 URL: {repo_url}")
     
-    print("🔧 Setting up Colab environment...")
-    
-    # 1. Clone repository
-    print("📥 Cloning GitHub repository...")
-    import os
     if os.path.exists(repo_name):
-        print(f"⚠️  Directory {repo_name} already exists, removing...")
-        import shutil
         shutil.rmtree(repo_name)
+        print(f"🗑️ Removed existing {repo_name}")
     
-    os.system(f"git clone {github_repo_url}")
-    os.chdir(repo_name)
-    print(f"✅ Successfully cloned repository to {repo_name}")
-    
-    # 2. Check GPU
-    import torch
-    if torch.cuda.is_available():
-        print(f"🚀 GPU available: {torch.cuda.get_device_name(0)}")
-        print(f"💾 GPU memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f}GB")
+    print("📥 Cloning repository...")
+    result = os.system(f"git clone {repo_url}")
+    if result == 0:
+        print("✅ Clone successful!")
     else:
-        print("⚠️  GPU not available")
+        print("❌ Clone failed!")
+        return
     
-    # 3. Install dependencies
+    print("📁 Changing directory...")
+    try:
+        os.chdir(repo_name)
+        print(f"Current directory: {os.getcwd()}")
+    except Exception as e:
+        print(f"❌ Failed to change directory: {e}")
+        return
+    
     print("📦 Installing dependencies...")
-    if os.path.exists("requirements.txt"):
-        os.system("pip install -r requirements.txt")
-        print("✅ Dependencies installed successfully")
+    result = os.system("pip install -r requirements.txt")
+    if result == 0:
+        print("✅ Dependencies installed!")
     else:
-        print("⚠️  requirements.txt file not found")
-    
-    print("🎉 Environment setup complete!")
-    print("\n📝 Usage instructions:")
-    print("1. After modifying code in Cursor, run: git add . && git commit -m 'update' && git push")
-    print("2. In Colab, run: !git pull to get the latest code")
-    print("3. Run: !python main.py to execute your script")
+        print("❌ Installation failed!")
+        return
+        
+    print("✅ Setup complete!")
 
-def pull_latest_changes():
-    """Pull the latest code changes"""
-    print("🔄 Pulling latest code...")
+def update():
+    """Pull latest changes"""
     import os
+    print("🔄 Pulling latest changes...")
     result = os.system("git pull")
     if result == 0:
-        print("✅ Code updated successfully!")
+        print("✅ Updated!")
     else:
-        print("❌ Code update failed, please check network connection or repository status")
+        print("❌ Update failed!")
 
-# Example usage (run in Colab):
-"""
-# 1. First-time setup (replace with your repository information)
-setup_colab_environment(
-    github_repo_url="https://github.com/your-username/your-repo.git",
-    repo_name="your-repo"
-)
+def setup_colab():
+    """Setup specifically for Colab with magic commands"""
+    print("Use this in a Colab cell instead:")
+    print("""
+# 🔧 Setup - Run this in Colab!
+REPO_URL = "https://github.com/SophieXueZhang/cursor-colab-workflow-en.git"
+REPO_NAME = REPO_URL.split("/")[-1].replace(".git", "")
 
-# 2. Subsequent code updates
-pull_latest_changes()
+import os, shutil
+if os.path.exists(REPO_NAME):
+    shutil.rmtree(REPO_NAME)
 
-# 3. Run your script
-!python main.py
-""" 
+!git clone $REPO_URL
+%cd $REPO_NAME
+%pip install -r requirements.txt
+print("✅ Setup complete!")
+""")
+
+# Usage:
+# For Colab: use setup_colab() to get the correct commands
+# For regular Python: setup() then update()
+# setup_colab()  # Shows Colab commands
+# setup()        # For regular Python
+# update()       # Pull updates 

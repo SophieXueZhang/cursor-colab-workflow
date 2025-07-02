@@ -1,6 +1,6 @@
 # Cursor + Google Colab + GitHub Workflow
 
-A complete workflow setup that lets you write code comfortably in Cursor while leveraging Google Colab Pro's GPU resources for computation.
+A streamlined workflow setup that lets you write code comfortably in Cursor while leveraging Google Colab's GPU resources for computation.
 
 ## 🚀 Quick Start
 
@@ -12,17 +12,11 @@ A complete workflow setup that lets you write code comfortably in Cursor while l
    cd your-repo
    ```
 
-2. **Add remote repository** (for new projects)
-   ```bash
-   git init
-   git remote add origin https://github.com/your-username/your-repo.git
-   ```
-
-3. **Push code to GitHub**
+2. **Push code to GitHub**
    ```bash
    git add .
    git commit -m "Initial commit"
-   git push -u origin main
+   git push origin main
    ```
 
 ### Step 2: Google Colab Setup
@@ -31,19 +25,23 @@ A complete workflow setup that lets you write code comfortably in Cursor while l
 
 2. **Set GPU runtime**: Runtime → Change runtime type → GPU
 
-3. **First-time environment setup** (run in Colab):
+3. **Run the setup cell** (in Colab):
    ```python
-   # Clone your GitHub repository
-   !git clone https://github.com/your-username/your-repo.git
-   %cd your-repo
+   # 🔧 Setup - Run this first!
+   REPO_URL = "https://github.com/SophieXueZhang/cursor-colab-workflow-en.git"
+   REPO_NAME = REPO_URL.split("/")[-1].replace(".git", "")
    
-   # Install dependencies
-   !pip install -r requirements.txt
+   import os, shutil
+   if os.path.exists(REPO_NAME): shutil.rmtree(REPO_NAME)
+   !git clone $REPO_URL
+   %cd $REPO_NAME
+   %pip install -r requirements.txt
+   print("✅ Setup complete!")
    ```
 
-4. **Subsequent usage** (after each code modification):
+4. **Update and run** (after each code modification):
    ```python
-   # Pull latest changes
+   # Update code
    !git pull
    
    # Run your script
@@ -54,11 +52,12 @@ A complete workflow setup that lets you write code comfortably in Cursor while l
 
 ```
 your-repo/
-├── main.py              # Main machine learning script
-├── colab_setup.py       # Colab environment setup script
-├── requirements.txt     # Python dependencies
-├── README.md           # Project documentation
-└── .gitignore          # Git ignore file
+├── main.py              # Simple PyTorch GPU training example
+├── colab_example.ipynb  # Ready-to-use Colab notebook
+├── colab_setup.py       # Python setup functions
+├── quick_push.sh        # One-line git push script
+├── requirements.txt     # Minimal dependencies: torch, matplotlib, numpy
+└── README.md           # Project documentation
 ```
 
 ## 🔧 Workflow
@@ -70,8 +69,11 @@ your-repo/
 ```bash
 # Complete workflow in Cursor
 git add .
-git commit -m "Update model architecture"
+git commit -m "Update model"
 git push origin main
+
+# Or use the quick script
+./quick_push.sh "Update model"
 ```
 
 ```python
@@ -82,15 +84,11 @@ git push origin main
 
 ## 💡 Usage Tips
 
-### Quick Sync Script
+### Quick Push Script
 
-Create a quick push script in Cursor:
+Use the simplified push script in Cursor:
 ```bash
-#!/bin/bash
-git add .
-git commit -m "$(date): Auto commit"
-git push origin main
-echo "✅ Code pushed to GitHub"
+./quick_push.sh "your message"
 ```
 
 ### Colab Optimization Tips
@@ -98,56 +96,36 @@ echo "✅ Code pushed to GitHub"
 1. **Check GPU status**:
    ```python
    import torch
-   print(f"GPU available: {torch.cuda.is_available()}")
+   print(f"GPU: {torch.cuda.is_available()}")
    if torch.cuda.is_available():
-       print(f"GPU name: {torch.cuda.get_device_name(0)}")
+       print(f"Name: {torch.cuda.get_device_name(0)}")
    ```
 
-2. **Monitor GPU memory**:
+2. **Quick setup function**:
    ```python
-   import torch
-   print(f"GPU memory used: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
-   print(f"GPU memory total: {torch.cuda.max_memory_allocated()/1024**3:.2f}GB")
-   ```
-
-3. **Clear GPU memory**:
-   ```python
-   import torch
-   torch.cuda.empty_cache()
+   from colab_setup import setup, update
+   setup()  # First time
+   update() # After changes
    ```
 
 ## 🛠️ Common Issues
 
-### Q: How to handle large files?
-A: Use Git LFS or store large files in Google Drive:
-```python
-# Mount Google Drive in Colab
-from google.colab import drive
-drive.mount('/content/drive')
-```
-
-### Q: How to save training results?
-A: Save results to GitHub or Google Drive:
-```python
-# Save model
-torch.save(model.state_dict(), 'model.pth')
-
-# Push back to GitHub (requires Colab GitHub authentication)
-!git add model.pth
-!git commit -m "Save trained model"
-!git push
-```
+### Q: How to change repository?
+A: Simply modify the `REPO_URL` variable in the setup cell.
 
 ### Q: What if Colab session disconnects?
-A: Re-run the environment setup code to restore.
+A: Re-run the setup cell to restore your environment.
+
+### Q: How to save training results?
+A: Results are automatically plotted. For permanent storage, save to Google Drive or push back to GitHub.
 
 ## 📊 Example Project
 
 The project includes a complete PyTorch example:
-- Simple neural network
+- Simple neural network (52 lines vs 134 lines)
 - GPU-accelerated training
-- Training process visualization
-- Automatic environment detection
+- Training loss visualization
+- Automatic device detection
 
 ## 🔗 Related Links
 
@@ -157,4 +135,4 @@ The project includes a complete PyTorch example:
 
 ---
 
-🎉 Now you can enjoy the perfect combination of local coding + cloud GPU! 
+🎉 Now you can enjoy the perfect combination of local coding + cloud GPU with minimal setup! 

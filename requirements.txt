@@ -1,20 +1,20 @@
 # Basic data science libraries
-numpy==1.24.3
-pandas==2.0.3
-matplotlib==3.7.2
-seaborn==0.12.2
+numpy
+pandas
+matplotlib
+seaborn
 
 # Machine learning libraries
-scikit-learn==1.3.0
-torch==2.0.1
-torchvision==0.15.2
-tensorflow==2.13.0
+scikit-learn
+torch
+torchvision
+tensorflow
 
 # Jupyter related
-jupyter==1.0.0
-ipykernel==6.25.0
+jupyter
+ipykernel
 
 # Other common libraries
-tqdm==4.65.0
-requests==2.31.0
-Pillow==10.0.0 
+tqdm
+requests
+Pillow 
